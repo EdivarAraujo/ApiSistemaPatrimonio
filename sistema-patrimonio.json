@@ -1,0 +1,287 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "[ API ] - SISTEMA PATRIMONIO",
+    "description": "End Points - API Sistema Patrimonio .",
+    "version": "0.0.1",
+    "termsOfService": "https://mockapi.io",
+    "contact": {
+      "name": "Suporte a Devs",
+      "email": "suporte.sistemas@tijucaalimentos.com",
+      "url": "http://api.whatsapp.com/send/?phone=558532299754&text&app_absent=0"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3333/",
+      "description": "LOCALHOST"
+    },
+    {
+      "url": "http://192.168.0.11:3333/",
+      "description": "SATURNO"
+    }
+  ],
+  "paths": {
+    "/findAllContributors": {
+      "get": {
+        "summary": "Busca todos os colaboradores.",
+        "responses": {
+          "200": {
+            "description": "Colaboradores encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Colaborador"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/findCollaborator/{idColaborador}": {
+      "parameters": [
+        {
+          "name": "idColaborador",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Busca um colaborador pelo id",
+        "responses": {
+          "200": {
+            "description": "Colaboradores encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Colaborador"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Colaborador nao encontrado",
+            "content": {
+              "application/json": {
+                "example": "Not Found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createCollaborator": {
+      "post": {
+        "summary": "Adiciona um novo colaborador",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "codigo": {
+                    "type": "integer"
+                  },
+                  "numeroPatrimonio": {
+                    "type": "integer"
+                  },
+                  "funcaoId": {
+                    "type": "integer"
+                  },
+                  "unidadeId": {
+                    "type": "integer"
+                  },
+                  "setorId": {
+                    "type": "integer"
+                  },
+                  "numeroChip1": {
+                    "type": "string"
+                  },
+                  "operadoraChip1": {
+                    "type": "string"
+                  },
+                  "numeroChip2": {
+                    "type": "string"
+                  },
+                  "operadoraChip2": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "nome": "Anderson dos santos reinaldo",
+                  "codigo": 1,
+                  "numeroPatrimonio": 2,
+                  "funcaoId": 1,
+                  "unidadeId": 1,
+                  "setorId": 1,
+                  "numeroChip1": "00000000000",
+                  "operadoraChip1": "TIM",
+                  "numeroChip2": "00000000000",
+                  "operadoraChip2": "CLARO"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Novo colaborador cadastrado!"
+          },
+          "404": {
+            "description": "Impossivel cadastrar este novo colaborador",
+            "content": {
+              "application/json": {
+                "example": "Not Found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/updateCollaborator/{idColaborador}": {
+      "parameters": [
+        {
+          "name": "idColaborador",
+          "in": "path",
+          "schema": {
+            "type": "integer"
+          },
+          "required": true
+        }
+      ],
+      "put": {
+        "summary": "Atualiza informacoes de um colaborador existente",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "codigo": {
+                    "type": "integer"
+                  },
+                  "numeroPatrimonio": {
+                    "type": "integer"
+                  },
+                  "funcaoId": {
+                    "type": "integer"
+                  },
+                  "unidadeId": {
+                    "type": "integer"
+                  },
+                  "setorId": {
+                    "type": "integer"
+                  },
+                  "numeroChip1": {
+                    "type": "string"
+                  },
+                  "operadoraChip1": {
+                    "type": "string"
+                  },
+                  "numeroChip2": {
+                    "type": "string"
+                  },
+                  "operadoraChip2": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "nome": "Nome atualzado",
+                  "codigo": 0,
+                  "numeroPatrimonio": 0,
+                  "funcaoId": 0,
+                  "unidadeId": 0,
+                  "setorId": 0,
+                  "numeroChip1": "00000000000",
+                  "operadoraChip1": "Nova operadora",
+                  "numeroChip2": "00000000000",
+                  "operadoraChip2": "Nova operadora"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dados Alterados com sucesso!"
+          },
+          "404": {
+            "description": "Impossivel editar este colaborador",
+            "content": {
+              "application/json": {
+                "example": "Not Found"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "auth": []
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Colaborador": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "codigo": {
+            "type": "integer"
+          },
+          "numeroPatrimonio": {
+            "type": "integer"
+          },
+          "funcaoId": {
+            "type": "integer"
+          },
+          "unidadeId": {
+            "type": "integer"
+          },
+          "setorId": {
+            "type": "integer"
+          },
+          "numeroChip1": {
+            "type": "string"
+          },
+          "operadoraChip1": {
+            "type": "string"
+          },
+          "numeroChip2": {
+            "type": "string"
+          },
+          "operadoraChip2": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  idUsuario    Int           @id @default(autoincrement())
+  nome         String
+  userName     String        @unique
+  email        String        @unique
+  password     String
+  status       Int           @default(1)
+  createdAt    DateTime      @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime?     @db.Timestamp(6)
+  RefreshToken RefreshToken?
+
+  @@map("sp_usuarios")
+}
+
+model Collaborator {
+  idColaborador    Int       @id @default(autoincrement())
+  codigo           Int?
+  numeroPatrimonio Int?      @unique
+  nome             String?   @db.VarChar(255)
+  unidade          Unity     @relation(fields: [unidadeId], references: [idUnidade])
+  unidadeId        Int
+  setor            Sector    @relation(fields: [setorId], references: [idSetor])
+  setorId          Int
+  funcao           Function  @relation(fields: [funcaoId], references: [idFuncao])
+  funcaoId         Int
+  numeroChip1      String?   @db.VarChar(20)
+  operadoraChip1   String?   @db.VarChar(20)
+  numeroChip2      String?   @db.VarChar(20)
+  operadoraChip2   String?   @db.VarChar(20)
+  status           Int       @default(1)
+  createdAt        DateTime? @default(now()) @db.Timestamp(6)
+  updatedAt        DateTime? @db.Timestamp(6)
+
+  @@map("sp_colaboradores")
+}
+
+model Unity {
+  idUnidade   Int       @id @default(autoincrement())
+  nomeUnidade String
+  status      Int       @default(1)
+  createdAt   DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime? @db.Timestamp(6)
+
+  Collaborator Collaborator[]
+  @@map("sp_unidades")
+}
+
+model Sector {
+  idSetor   Int       @id @default(autoincrement())
+  nomeSetor String
+  status    Int       @default(1)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt DateTime? @db.Timestamp(6)
+
+  Collaborator Collaborator[]
+  @@map("sp_setores")
+}
+
+model Function {
+  idFuncao   Int       @id @default(autoincrement())
+  nomeFuncao String
+  status     Int       @default(1)
+  createdAt  DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt  DateTime? @db.Timestamp(6)
+
+  Collaborator Collaborator[]
+  @@map("sp_funcoes")
+}
+
+model RefreshToken {
+  id        String  @id @default(uuid())
+  expiresIn Int
+  user      User @relation(fields: [userId], references: [idUsuario])
+  userId    Int  @unique
+
+  @@map("sp_refresh_token")
+}
